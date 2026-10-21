@@ -9,7 +9,7 @@ AI-assisted trip planning for solo weekends, couples, and small groups. Pick a r
 [![Supabase](https://img.shields.io/badge/data-Supabase%20%2F%20SQLite-3ecf8e?logo=supabase&logoColor=white)](backend/database)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-Repository: [2praveen6/travel-itenary-skill-wallet](https://github.com/2praveen6/travel-itenary-skill-wallet)
+Repository: [2praveen6/travel-itinerary-skill-wallet](https://github.com/2praveen6/travel-itinerary-skill-wallet)
 
 <p align="center">
   <img src="docs/preview.png" alt="Waypoint home: ready-made itineraries and custom AI trip builder" width="920" />
