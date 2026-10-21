@@ -6,7 +6,7 @@ Production layout:
 - **Frontend** — Vercel (Vite static build)
 - **Database** — Supabase Postgres
 
-Connect both services to [this GitHub repository](https://github.com/2praveen6/travel-itenary-skill-wallet). Do not upload `.env` files.
+Connect both services to [this GitHub repository](https://github.com/2praveen6/travel-itinerary-skill-wallet). Do not upload `.env` files.
 
 ## 1. Supabase
 
