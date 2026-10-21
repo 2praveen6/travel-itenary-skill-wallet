@@ -26,18 +26,3 @@ npm run dev
 Open http://localhost:5173 · API docs http://localhost:5000/docs
 
 Keys live in `backend/.env` (never commit). See [SETUP.md](SETUP.md) and [DEPLOYMENT.md](DEPLOYMENT.md).
-
-## GitHub
-
-This folder is the repo root. Do not commit `backend/.env`. Copy `backend/.env.example` and `frontend/.env.example` instead.
-
-```bash
-git init
-git add .
-git status   # confirm .env is not listed
-git commit -m "Initial Waypoint travel planner"
-```
-
-Then create an empty GitHub repo and `git remote add origin …` + `git push -u origin main`.
-
-Deploy next: backend on Render (`render.yaml`, root `backend`), frontend on Vercel (`frontend/vercel.json`, env `VITE_API_URL`).
