@@ -14,9 +14,9 @@ if not using_supabase():
     init_db()
 
 app = FastAPI(
-    title="Personalized Travel Itinerary Planner",
-    version="3.0.1",
-    description="FastAPI + LLM providers (Groq/HF/Ollama) + Supabase/SQLite.",
+    title="Waypoint · Travel Itinerary Planner",
+    version="1.0.0",
+    description="Personalized day-by-day itineraries: FastAPI, Groq/HF/Ollama, Supabase or SQLite.",
 )
 
 origins = list({CLIENT_ORIGIN, "http://localhost:5173", "http://127.0.0.1:5173"})

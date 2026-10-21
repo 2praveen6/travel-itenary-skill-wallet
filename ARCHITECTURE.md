@@ -1,26 +1,45 @@
 # Architecture
 
+Waypoint is a small three-tier app: a React SPA, a FastAPI service, and either Supabase Postgres or local SQLite.
+
 ```
-React (Vite + Framer Motion + Lucide)
-        |  tripsAPI / JWT
-        v
-FastAPI  (Pydantic request/response contracts)
-        |-- prompt_builder.py  (role, constraints, injected prefs)
-        |-- ai_engine.py       (OpenAI JSON or local curated engine)
-        v
-SQLite (dev) or Supabase schema (prod)
+React (Vite)
+  tripsAPI · JWT in localStorage
+        │
+        ▼
+FastAPI
+  ├── auth / preferences / trips / templates
+  ├── prompt_builder.py     structured LLM prompts
+  ├── ai_engine.py          Groq → OpenAI → HF → Ollama → rules
+  ├── services/templates.py ready-made itineraries
+  └── optimize.py           cluster stops and fill transfer times
+        │
+        ▼
+Supabase (prod)  or  SQLite (dev)
 ```
 
-## Data
+## Data model
 
-`profiles`, `preferences`, `trips`, `itinerary_days`, `activities`, `recommendation_logs`
+| Table | Role |
+| --- | --- |
+| `profiles` | Users (email + password hash) |
+| `preferences` | Vibe, budget, companions, dietary notes |
+| `trips` | One planned journey |
+| `itinerary_days` | Day theme, date, summary |
+| `activities` | Timed stops (stay, food, attraction, transport) |
+| `recommendation_logs` | Prompt / result audit |
 
-The same table names are used in Postgres (`schema.sql`) and SQLite (`schema.sqlite.sql`).
+Schemas: [`backend/database/schema.sql`](backend/database/schema.sql) (Postgres) and [`backend/database/schema.sqlite.sql`](backend/database/schema.sqlite.sql).
 
-## Recommendation
+## Planning pipeline
 
-`buildRecommendationPrompt` turns preferences into a structured prompt. If `OPENAI_API_KEY` is set, the API asks the model for JSON destinations. Otherwise a local scorer ranks catalog cities by vibe, climate, budget tier, and companions.
+1. Collect traveler inputs (or clone a template)
+2. Build a constrained JSON prompt from preferences
+3. Ask the first available LLM for a day list
+4. If the model fails, assemble days from the destination catalog
+5. Optimize walking order and attach stay + transport rows
+6. Persist via the Supabase service role (or SQLite)
 
-## Itinerary
+## Auth
 
-Catalog stops are filtered by vibe/interests, grouped into morning/afternoon/evening, ordered with nearest-neighbor on lat/lng, then given start/end times plus transfer minutes.
+Registration and login issue a JWT. The browser sends `Authorization: Bearer <token>`. Public share pages use `GET /api/share/{token}` with no auth.
