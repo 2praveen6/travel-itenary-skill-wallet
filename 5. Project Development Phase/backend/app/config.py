@@ -1,5 +1,4 @@
 import os
-import secrets
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -16,11 +15,10 @@ def _env(*names: str, default: str = "") -> str:
     return default
 
 
-JWT_SECRET = _env("SECRET_KEY", "JWT_SECRET", default=secrets.token_hex(32))
+JWT_SECRET = _env("SECRET_KEY", "JWT_SECRET", default="dev-only-change-me")
 JWT_ALGORITHM = "HS256"
 CLIENT_ORIGIN = _env("FRONTEND_URL", "CLIENT_ORIGIN", default="http://localhost:5173")
 PORT = int(os.getenv("PORT", "5000"))
-
 
 def _normalize_supabase_url(url: str) -> str:
     url = (url or "").strip().rstrip("/")
